@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!-- Disable logback's internal logging -->
+    <statusListener class="ch.qos.logback.core.status.NopStatusListener" />
+
+    <!-- Console Appender -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- DMOE Engine API -->
+    <logger name="com.ibm.techsales.dmoe.engine.api" level="info" additivity="false">
+        <appender-ref ref="CONSOLE"/>
+    </logger>
+
+    <!-- DMOE Engine API Listeners -->
+    <logger name="com.ibm.techsales.dmoe.engine.listeners" level="info" additivity="false">
+        <appender-ref ref="CONSOLE"/>
+    </logger>
+
+    <!-- DMOE KJAR -->
+    <logger name="com.ibm.techsales.dmoe.sample" level="info" additivity="false">
+        <appender-ref ref="CONSOLE"/>
+    </logger>
+
+    <!-- Root Level -->
+    <root level="error">
+        <appender-ref ref="CONSOLE"/>
+    </root>
+</configuration>

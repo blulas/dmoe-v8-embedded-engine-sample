@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<kmodule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.drools.org/xsd/kmodule">
+    <kbase name="DecisionManagerOpenEditionSamples" default="true" packages="com.ibm.techsales.dmoe.sample">
+        <ksession name="LoanApplication" default="true">
+            <listeners>
+                <agendaEventListener type="com.ibm.techsales.dmoe.engine.listeners.RuleEngineListener"/>
+            </listeners>            
+        </ksession>
+    </kbase>
+</kmodule>
