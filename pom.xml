@@ -10,8 +10,8 @@
 
     <!-- Modules -->
     <modules>
+        <module>api</module>
         <module>drl-sample-kjar</module>
         <module>dmn-sample-kjar</module>
-        <module>api</module>
     </modules>
 </project>

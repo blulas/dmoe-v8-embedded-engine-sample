@@ -37,8 +37,8 @@
         <version.org.kie>7.67.2.Final-redhat-00025</version.org.kie>  <!-- This is necessary in order to use the proper Maven build plugin for KJARs, which is why it uses community version labels.  This is only for KJAR builds not for dependencies -->
 
         <!-- Shared Libraries -->
-        <dmoe-v8-embedded-engine-api.groupId>com.ibm.techsales.dmoe.samples</dmoe-v8-embedded-engine-api.groupId>
-        <dmoe-v8-embedded-engine-api.artifactId>community</idmoe-v8-embedded-engine-api.artifactId>
+        <dmoe-v8-embedded-engine-api.groupId>com.ibm.techsales.dmoe.v8.samples</dmoe-v8-embedded-engine-api.groupId>
+        <dmoe-v8-embedded-engine-api.artifactId>dmoe-v8-embedded-engine-api</dmoe-v8-embedded-engine-api.artifactId>
         <dmoe-v8-embedded-engine-api.version>1.0.0-SNAPSHOT</dmoe-v8-embedded-engine-api.version>
     </properties>
 
