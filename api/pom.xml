@@ -5,7 +5,7 @@
     <!-- POM -->
     <groupId>com.ibm.techsales.dmoe.v8.samples</groupId>
     <artifactId>dmoe-v8-embedded-engine-api</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>8.0.6</version>
     <packaging>jar</packaging>
 
     <!-- Global Properties -->
