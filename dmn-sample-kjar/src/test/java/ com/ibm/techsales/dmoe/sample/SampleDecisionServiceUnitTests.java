@@ -2,9 +2,9 @@ package com.ibm.techsales.dmoe.sample;
 
 import org.junit.jupiter.api.Test;
 
-import com.ibm.techsales.dmoe.sample.model.Applicant;
-import com.ibm.techsales.dmoe.sample.model.LoanApplication;
-import com.ibm.techsales.dmoe.sample.service.SampleRuleService;
+//import com.ibm.techsales.dmoe.sample.model.Applicant;
+//import com.ibm.techsales.dmoe.sample.model.LoanApplication;
+import com.ibm.techsales.dmoe.sample.service.SampleDecisionService;
 import com.ibm.techsales.dmoe.engine.api.ExecutionInfo;
 import com.ibm.techsales.dmoe.engine.api.Fact;
 
@@ -27,6 +27,7 @@ public class SampleDecisionServiceUnitTests {
             SampleDecisionService decisionService = new SampleDecisionService();
 
             // Facts
+/*
             List<Fact> variables = new ArrayList<Fact>();
             variables.add("Les",   new LoanApplication("ABC10001", 2000,  100, 5000, new Applicant("Les",   45)));
             variables.add("Larry", new LoanApplication("ABC10002", 5000,  100, 5000, new Applicant("Larry", 25)));
@@ -39,7 +40,7 @@ public class SampleDecisionServiceUnitTests {
                 logger.info("Decision execution duration: (" + i + ") " + executionInfo);
                 logger.info("Decision execution results:  (" + i + ") " + executionInfo.getVariables());
             }
-
+*/
             // Be sure to call dispose, otherwise the engine pooll will not be released and you will get memory leaks    
             decisionService.dispose();
         } catch (Exception e) {

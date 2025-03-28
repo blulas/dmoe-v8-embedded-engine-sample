@@ -4,7 +4,7 @@
 
     <!-- POM -->
     <groupId>com.ibm.techsales.dmoe.v8.samples</groupId>
-    <artifactId>dmoe-v8-embedded-sample</artifactId>
+    <artifactId>dmoe-v8-embedded-engine-sample</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
