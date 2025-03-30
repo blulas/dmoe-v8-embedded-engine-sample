@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import com.ibm.techsales.dmoe.sample.model.Applicant;
 import com.ibm.techsales.dmoe.sample.model.LoanApplication;
+
 import com.ibm.techsales.dmoe.engine.api.ExecutionInfo;
 import com.ibm.techsales.dmoe.engine.api.RuleEngineAdaptor;
 

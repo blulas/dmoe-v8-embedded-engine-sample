@@ -2,8 +2,10 @@ package com.ibm.techsales.dmoe.sample;
 
 import org.junit.jupiter.api.Test;
 
-import com.ibm.techsales.dmoe.sample.model.Applicant;
-import com.ibm.techsales.dmoe.sample.model.LoanApplication;
+import com.ibm.techsales.dmoe.sample.model.Driver;
+import com.ibm.techsales.dmoe.sample.model.Violation;
+import com.ibm.techsales.dmoe.sample.model.Fine;
+
 import com.ibm.techsales.dmoe.engine.api.ExecutionInfo;
 import com.ibm.techsales.dmoe.engine.api.DecisionEngineAdaptor;
 
@@ -42,12 +44,12 @@ public class SampleDecisionServiceUnitTests {
 
             // Create and register an adaptor
             DecisionEngineAdaptor decisionEngineAdaptor = new DecisionEngineAdaptor();
-//            decisionEngineAdaptor.register(properties.getProperty(PROPERTY_DMN_NAMESPACE), properties.getProperty(PROPERTY_DMN_MODEL_NAME), properties.getProperty(PROPERTY_KJAR_GROUP_ID), properties.getProperty(PROPERTY_KJAR_ARTIFACT_ID), properties.getProperty(PROPERTY_KJAR_VERSION));
+            decisionEngineAdaptor.register(properties.getProperty(PROPERTY_DMN_NAMESPACE), properties.getProperty(PROPERTY_DMN_MODEL_NAME), properties.getProperty(PROPERTY_KJAR_GROUP_ID), properties.getProperty(PROPERTY_KJAR_ARTIFACT_ID), properties.getProperty(PROPERTY_KJAR_VERSION));
 
             // Facts
             Map<String, Object> facts = new HashMap<String, Object>();
-            facts.put("Applicant",   new Applicant("#0001", 20));
-            facts.put("Application", new LoanApplication("#0001"));
+            facts.put("Driver",    new Driver("Les", 33, "FL", "Wesley Chapel", 2));
+            facts.put("Violation", new Violation("ABC123", "2024-10-16", "speed", 100, 120));
 
             // Test the service
             ExecutionInfo executionInfo = decisionEngineAdaptor.execute(facts);
