@@ -9,7 +9,6 @@ public class ExecutionInfo {
     private int firedRuleCount;
     private ExecutionDuration executionDuration;
     private List<Object> facts;
-    private List<Fact> variables;
 
     public String getStartedOn() {
         return this.startedOn;
@@ -49,14 +48,6 @@ public class ExecutionInfo {
 
     public void setFacts(List<Object> facts) {
         this.facts = facts;
-    }
-
-    public List<Fact> getVariables() {
-        return this.variables;
-    }
-
-    public void setVariables(List<Fact> variables) {
-        this.variables = variables;
     }
 
     @Override

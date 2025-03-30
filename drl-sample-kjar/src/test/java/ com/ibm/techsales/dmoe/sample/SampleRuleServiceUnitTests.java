@@ -4,11 +4,15 @@ import org.junit.jupiter.api.Test;
 
 import com.ibm.techsales.dmoe.sample.model.Applicant;
 import com.ibm.techsales.dmoe.sample.model.LoanApplication;
-import com.ibm.techsales.dmoe.sample.service.SampleRuleService;
 import com.ibm.techsales.dmoe.engine.api.ExecutionInfo;
+import com.ibm.techsales.dmoe.engine.api.RuleEngineAdaptor;
+import com.ibm.techsales.dmoe.engine.api.Fact;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Properties;
+import java.io.FileInputStream;
+import java.io.IOException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,13 +21,25 @@ public class SampleRuleServiceUnitTests {
 
     private static final Logger logger = LoggerFactory.getLogger(SampleRuleServiceUnitTests.class);
 
+    private static final String PROPERTY_KIE_SESSION_NAME       = "kie.session.name";
+    private static final String PROPERTY_KIE_SESSION_POOL_SIZE  = "kie.session.poolsize";
+    private static final String PROPERTY_KJAR_GROUP_ID          = "kjar.groupId";
+    private static final String PROPERTY_KJAR_ARTIFACT_ID       = "kjar.artifactId";
+    private static final String PROPERTY_KJAR_VERSION           = "kjar.version";
+
     @Test
     void processRules() {
 
         try {
 
-            logger.info("Testing sample rule service...");
-            SampleRuleService ruleService = new SampleRuleService();
+            // Load the application properties
+            Properties properties = new Properties();
+            FileInputStream input = new FileInputStream("src/main/resources/application.properties");
+            properties.load(input);
+
+            // Create and register an adaptor
+            RuleEngineAdaptor ruleEngineAdaptor = new RuleEngineAdaptor();
+            ruleEngineAdaptor.register(properties.getProperty(PROPERTY_KIE_SESSION_NAME), Integer.parseInt(properties.getProperty(PROPERTY_KIE_SESSION_POOL_SIZE)), properties.getProperty(PROPERTY_KJAR_GROUP_ID), properties.getProperty(PROPERTY_KJAR_ARTIFACT_ID), properties.getProperty(PROPERTY_KJAR_VERSION));
 
             // Facts
             List<Object> facts = new ArrayList<Object>();
@@ -34,14 +50,15 @@ public class SampleRuleServiceUnitTests {
             // Test the pool
             for (int i=0; i<10; i++) {
 
-                ExecutionInfo executionInfo = ruleService.execute(facts);
+                ExecutionInfo executionInfo = ruleEngineAdaptor.execute(facts);
                 logger.info("Rule execution duration: (" + i + ") " + executionInfo);
                 logger.info("Rule execution results:  (" + i + ") " + executionInfo.getFacts());
             }
 
             // Be sure to call dispose, otherwise the engine pooll will not be released and you will get memory leaks    
-            ruleService.dispose();
+            ruleEngineAdaptor.dispose();
         } catch (Exception e) {
+
             logger.error("Error executing ruleset: reason=" + e.getMessage());
             e.printStackTrace();
         }

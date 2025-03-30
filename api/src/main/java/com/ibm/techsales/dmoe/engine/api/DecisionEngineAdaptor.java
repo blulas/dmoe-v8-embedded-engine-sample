@@ -54,7 +54,7 @@ public class DecisionEngineAdaptor {
         logger.info("Registered decision engine: namespace=" + namespace + ", modelName=" + modelName + ", KJAR=" + releaseId.toString() + "...");
     }
 
-    public void execute(List<Fact> variables) throws Exception {
+    public ExecutionInfo execute(List<Object> facts) throws Exception {
 
         // Mark the start time
         LocalDateTime startedOn = LocalDateTime.now();
@@ -64,13 +64,23 @@ public class DecisionEngineAdaptor {
         DMNModel dmnModel = dmnRuntime.getModel(this.namespace, this.modelName);
         DMNContext dmnContext = dmnRuntime.newContext();  
 
+        logger.info("dmnRuntime: " + dmnRuntime);
+        logger.info("dmnModel: " + dmnModel);
+        logger.info("dmnContext: " + dmnContext);
+
         // Add the facts
-        Iterator<Fact> iVariables = variables.iterator();
+        Iterator<Object> iFacts = facts.iterator();
+        while(iFacts.hasNext()) {
 
-        while(iVariables.hasNext()) {
+            Object fact = (Object) iFacts.next();
+            dmnContext.set(fact.getClass().getSimpleName(), fact);
+        }
 
-            Fact variable = (Fact) iVariables.next();
-            logger.info("Variable: " + variable);
+        // Execute the model
+        DMNResult dmnResult = dmnRuntime.evaluateAll(dmnModel, dmnContext);
+
+        for (DMNDecisionResult dr : dmnResult.getDecisionResults()) {
+            logger.info("--> Decision: '" + dr.getDecisionName() + "', " + "Result: " + dr.getResult());
         }
 
         // Mark completion time        
@@ -84,7 +94,9 @@ public class DecisionEngineAdaptor {
         executionInfo.setStartedOn(formatLocalDateTime(startedOn));
         executionInfo.setCompletedOn(formatLocalDateTime(completedOn));
         executionInfo.setExecutionDuration(duration);
-        //executionInfo.setFacts(facts);
+        executionInfo.setFacts(facts);
+
+        return executionInfo;
     }
 
     public void dispose() throws Exception {
