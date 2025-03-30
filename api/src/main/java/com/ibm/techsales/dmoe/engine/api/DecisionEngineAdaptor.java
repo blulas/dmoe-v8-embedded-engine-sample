@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.Map;
 import java.util.Iterator;
 
 import org.slf4j.Logger;
@@ -54,7 +55,7 @@ public class DecisionEngineAdaptor {
         logger.info("Registered decision engine: namespace=" + namespace + ", modelName=" + modelName + ", KJAR=" + releaseId.toString() + "...");
     }
 
-    public ExecutionInfo execute(List<Object> facts) throws Exception {
+    public ExecutionInfo execute(Map<String, Object> facts) throws Exception {
 
         // Mark the start time
         LocalDateTime startedOn = LocalDateTime.now();
@@ -69,18 +70,17 @@ public class DecisionEngineAdaptor {
         logger.info("dmnContext: " + dmnContext);
 
         // Add the facts
-        Iterator<Object> iFacts = facts.iterator();
-        while(iFacts.hasNext()) {
+        for (Map.Entry<String, Object> entry : facts.entrySet()) {
 
-            Object fact = (Object) iFacts.next();
-            dmnContext.set(fact.getClass().getSimpleName(), fact);
+            logger.info("Adding fact: name=" + entry.getKey() + ", value=" + entry.getValue());
+            dmnContext.set(entry.getKey(), entry.getValue());
         }
 
         // Execute the model
         DMNResult dmnResult = dmnRuntime.evaluateAll(dmnModel, dmnContext);
 
-        for (DMNDecisionResult dr : dmnResult.getDecisionResults()) {
-            logger.info("--> Decision: '" + dr.getDecisionName() + "', " + "Result: " + dr.getResult());
+        for (DMNDecisionResult result : dmnResult.getDecisionResults()) {
+            logger.info("--> Decision: '" + result.getDecisionName() + "', " + "Result: " + result.getResult());
         }
 
         // Mark completion time        
@@ -94,7 +94,7 @@ public class DecisionEngineAdaptor {
         executionInfo.setStartedOn(formatLocalDateTime(startedOn));
         executionInfo.setCompletedOn(formatLocalDateTime(completedOn));
         executionInfo.setExecutionDuration(duration);
-        executionInfo.setFacts(facts);
+        executionInfo.setFacts((List<Object>) facts.values());
 
         return executionInfo;
     }

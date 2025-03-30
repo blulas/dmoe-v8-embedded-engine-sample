@@ -6,10 +6,11 @@ import com.ibm.techsales.dmoe.sample.model.Applicant;
 import com.ibm.techsales.dmoe.sample.model.LoanApplication;
 import com.ibm.techsales.dmoe.engine.api.ExecutionInfo;
 import com.ibm.techsales.dmoe.engine.api.DecisionEngineAdaptor;
-import com.ibm.techsales.dmoe.engine.api.Fact;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.HashMap;
 import java.time.LocalDate;
 import java.util.Properties;
 import java.io.FileInputStream;
@@ -30,7 +31,7 @@ public class SampleDecisionServiceUnitTests {
     private static final String DATE_FORMAT = "yyyy-MM-dd";
 
     @Test
-    void processRules() {
+    void processDecisions() {
 
         try {
 
@@ -41,18 +42,18 @@ public class SampleDecisionServiceUnitTests {
 
             // Create and register an adaptor
             DecisionEngineAdaptor decisionEngineAdaptor = new DecisionEngineAdaptor();
-            decisionEngineAdaptor.register(properties.getProperty(PROPERTY_DMN_NAMESPACE), PROPERTY_DMN_MODEL_NAME), properties.getProperty(PROPERTY_KJAR_GROUP_ID), properties.getProperty(PROPERTY_KJAR_ARTIFACT_ID), properties.getProperty(PROPERTY_KJAR_VERSION));
+//            decisionEngineAdaptor.register(properties.getProperty(PROPERTY_DMN_NAMESPACE), properties.getProperty(PROPERTY_DMN_MODEL_NAME), properties.getProperty(PROPERTY_KJAR_GROUP_ID), properties.getProperty(PROPERTY_KJAR_ARTIFACT_ID), properties.getProperty(PROPERTY_KJAR_VERSION));
 
             // Facts
-            List<Fact> facts = new ArrayList<Fact>();
-            facts.add(new Fact("Applicant",   new Applicant("#0001", 20)));
-            facts.add(new Fact("Application", new new LoanApplication("#0001")));
+            Map<String, Object> facts = new HashMap<String, Object>();
+            facts.put("Applicant",   new Applicant("#0001", 20));
+            facts.put("Application", new LoanApplication("#0001"));
 
             // Test the service
             ExecutionInfo executionInfo = decisionEngineAdaptor.execute(facts);
             logger.info("Decision execution duration: " + executionInfo);
-            logger.info("Decision execution results:  " + executionInfo.getVariables());
- 
+            logger.info("Decision execution results:  " + executionInfo.getFacts());
+
              // Be sure to call dispose, otherwise the engine pooll will not be released and you will get memory leaks    
             decisionEngineAdaptor.dispose();
         } catch (Exception e) {

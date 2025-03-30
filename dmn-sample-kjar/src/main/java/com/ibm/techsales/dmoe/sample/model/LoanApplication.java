@@ -11,6 +11,10 @@ public class LoanApplication {
     public LoanApplication() {
     }
 
+    public LoanApplication(String applicantId) {
+        this.applicantId = applicantId;
+    }
+
     public LoanApplication(String applicantId, String explanation, boolean approved) {
 
         this.applicantId = applicantId;
@@ -48,6 +52,6 @@ public class LoanApplication {
     
     @Override
     public String toString() {
-        return "LoanApplication [applicantId=" + applicantId + ", explanation=" + explanation + ", tapprovedpe=" + approved + "]";
+        return "LoanApplication [applicantId=" + applicantId + ", explanation=" + explanation + ", approved=" + approved + "]";
     }
 }

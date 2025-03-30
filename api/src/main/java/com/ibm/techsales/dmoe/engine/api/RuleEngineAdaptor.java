@@ -19,6 +19,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Iterator;
 import java.util.Arrays;
 import java.util.Map;
@@ -73,6 +74,17 @@ public class RuleEngineAdaptor {
         logger.info("Registered rule engine: kieSessionName=" + kieSessionName + ", kieSessionPoolSize=" + kieSessionPoolSize + ", KJAR=" + releaseId.toString() + "...");
     }
 
+    public ExecutionInfo execute(Map<String, Object> facts) throws Exception {
+
+        List<Object> variables = new ArrayList<Object>();
+
+        for (Map.Entry<String, Object> entry : facts.entrySet()) {
+            variables.add(entry.getValue());
+        }
+
+        return execute(variables);
+    }
+
     public ExecutionInfo execute(List<Object> facts) throws Exception {
 
         // Mark the start time
@@ -113,7 +125,7 @@ public class RuleEngineAdaptor {
 
         return executionInfo;
     }
-
+    
     public void dispose() throws Exception {
 
         logger.info("Cleaning up rule session pool...");
