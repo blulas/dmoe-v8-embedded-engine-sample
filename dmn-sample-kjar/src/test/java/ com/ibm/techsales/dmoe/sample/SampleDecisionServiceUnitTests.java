@@ -6,8 +6,8 @@ import com.ibm.techsales.dmoe.sample.model.Driver;
 import com.ibm.techsales.dmoe.sample.model.Violation;
 import com.ibm.techsales.dmoe.sample.model.Fine;
 
-import com.ibm.techsales.dmoe.engine.api.ExecutionInfo;
 import com.ibm.techsales.dmoe.engine.api.DecisionEngineAdaptor;
+import com.ibm.techsales.dmoe.engine.api.DecisionResults;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -48,13 +48,13 @@ public class SampleDecisionServiceUnitTests {
 
             // Facts
             Map<String, Object> facts = new HashMap<String, Object>();
-            facts.put("Driver",    new Driver("Les", 33, "FL", "Wesley Chapel", 2));
+            facts.put("Driver",    new Driver("Les", 33, "FL", "Wesley Chapel", 20));
             facts.put("Violation", new Violation("ABC123", "2024-10-16", "speed", 100, 120));
 
             // Test the service
-            ExecutionInfo executionInfo = decisionEngineAdaptor.execute(facts);
-            logger.info("Decision execution duration: " + executionInfo);
-            logger.info("Decision execution results:  " + executionInfo.getFacts());
+            DecisionResults results = decisionEngineAdaptor.execute(facts);
+            logger.info("Decision execution duration: " + results);
+            logger.info("Decision results: " + results.getDecisions());
 
              // Be sure to call dispose, otherwise the engine pooll will not be released and you will get memory leaks    
             decisionEngineAdaptor.dispose();

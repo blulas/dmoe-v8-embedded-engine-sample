@@ -1,14 +1,14 @@
 package com.ibm.techsales.dmoe.engine.api;
 
 import java.util.List;
+import java.util.ArrayList;
 
-public class ExecutionInfo {
+public class DecisionResults {
 
     private String startedOn;
     private String completedOn;
-    private int firedRuleCount;
     private ExecutionDuration executionDuration;
-    private List<Object> facts;
+    private List<DecisionResult> decisions = new ArrayList<DecisionResult>();
 
     public String getStartedOn() {
         return this.startedOn;
@@ -26,14 +26,6 @@ public class ExecutionInfo {
         this.completedOn = completedOn;
     }
 
-    public int getFiredRuleCount() {
-        return this.firedRuleCount;
-    }
-
-    public void setFiredRuleCount(int firedRuleCount) {
-        this.firedRuleCount = firedRuleCount;
-    }
-
     public ExecutionDuration getExecutionDuration() {
         return this.executionDuration;
     }
@@ -42,16 +34,16 @@ public class ExecutionInfo {
         this.executionDuration = executionDuration;
     }
 
-    public List<Object> getFacts() {
-        return this.facts;
+    public List<DecisionResult> getDecisions() {
+        return this.decisions;
     }
 
-    public void setFacts(List<Object> facts) {
-        this.facts = facts;
+    public void setDecisions(List<DecisionResult> decisions) {
+        this.decisions = decisions;
     }
 
     @Override
     public String toString() {
-        return "startedOn=" + startedOn + ", completedOn=" + completedOn + ", firedRuleCount=" + firedRuleCount + ", executionDuration=" + executionDuration;
+        return "startedOn=" + startedOn + ", completedOn=" + completedOn + ", executionDuration=" + executionDuration;
     }
 }

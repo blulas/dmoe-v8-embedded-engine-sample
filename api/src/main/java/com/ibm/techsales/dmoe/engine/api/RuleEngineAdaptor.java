@@ -2,14 +2,12 @@ package com.ibm.techsales.dmoe.engine.api;
 
 import org.kie.api.KieServices;
 import org.kie.api.runtime.KieSession;
-import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieContainerSessionsPool;
 import org.kie.api.runtime.ExecutionResults;
-import org.kie.api.builder.ReleaseId;
 import org.kie.api.command.Command;
 import org.kie.api.command.BatchExecutionCommand;
-import org.kie.internal.command.CommandFactory;
 
+import org.kie.internal.command.CommandFactory;
 import org.drools.core.command.runtime.BatchExecutionCommandImpl;
 import org.drools.core.command.runtime.rule.InsertElementsCommand;
 import org.drools.core.command.runtime.rule.FireAllRulesCommand;
@@ -27,17 +25,13 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class RuleEngineAdaptor {
+public class RuleEngineAdaptor extends EmbeddedEngineAdaptor {
 
     private static final Logger logger = LoggerFactory.getLogger(RuleEngineAdaptor.class);
-    private static final String DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
 
-    private KieServices kieServices;
-    private KieContainer kieContainer;
     private KieSession kieSession;
     private String kieSessionName;
     private KieContainerSessionsPool kieSessionsPool;
-    private ReleaseId releaseId;
    
     public RuleEngineAdaptor() {
     }
@@ -66,15 +60,17 @@ public class RuleEngineAdaptor {
 
     public void register(String kieSessionName, int kieSessionPoolSize, String groupId, String artifactId, String version) throws Exception {
 
+        setKieServices(KieServices.Factory.get());
+        setReleaseId(getKieServices().newReleaseId(groupId, artifactId, version));
+        setKieContainer(getKieServices().newKieContainer(getReleaseId()));
+        
+        this.kieSessionsPool = getKieContainer().newKieSessionsPool(kieSessionPoolSize);
         this.kieSessionName = kieSessionName;
-        this.kieServices = KieServices.Factory.get();
-        this.releaseId = kieServices.newReleaseId(groupId, artifactId, version);
-        this.kieContainer = kieServices.newKieContainer(this.releaseId);
-        this.kieSessionsPool = this.kieContainer.newKieSessionsPool(kieSessionPoolSize);
-        logger.info("Registered rule engine: kieSessionName=" + kieSessionName + ", kieSessionPoolSize=" + kieSessionPoolSize + ", KJAR=" + releaseId.toString() + "...");
+
+        logger.info("Registered rule engine: kieSessionName=" + kieSessionName + ", kieSessionPoolSize=" + kieSessionPoolSize + ", KJAR=" + getReleaseId().toString() + "...");
     }
 
-    public ExecutionInfo execute(Map<String, Object> facts) throws Exception {
+    public RuleResults execute(Map<String, Object> facts) throws Exception {
 
         List<Object> variables = new ArrayList<Object>();
 
@@ -85,7 +81,7 @@ public class RuleEngineAdaptor {
         return execute(variables);
     }
 
-    public ExecutionInfo execute(List<Object> facts) throws Exception {
+    public RuleResults execute(List<Object> facts) throws Exception {
 
         // Mark the start time
         LocalDateTime startedOn = LocalDateTime.now();
@@ -104,7 +100,7 @@ public class RuleEngineAdaptor {
         BatchExecutionCommand batchCommand = new BatchExecutionCommandImpl(Arrays.asList(insertCommand, fireCommand), this.kieSessionName);
 
         // Execute all commands
-        ExecutionResults results = (ExecutionResults) this.kieSession.execute(batchCommand);
+        ExecutionResults executionResults = (ExecutionResults) this.kieSession.execute(batchCommand);
 
         // Cleanup
         this.kieSession.dispose();
@@ -116,14 +112,14 @@ public class RuleEngineAdaptor {
         ExecutionDuration duration = calculateExecutionDuration(startedOn, completedOn);
         
         // Prepare the execution results
-        ExecutionInfo executionInfo = new ExecutionInfo();
-        executionInfo.setStartedOn(formatLocalDateTime(startedOn));
-        executionInfo.setCompletedOn(formatLocalDateTime(completedOn));
-        executionInfo.setExecutionDuration(duration);
-        executionInfo.setFiredRuleCount((int) results.getValue("firedActivations"));
-        executionInfo.setFacts(facts);
+        RuleResults results = new RuleResults();
+        results.setStartedOn(formatLocalDateTime(startedOn));
+        results.setCompletedOn(formatLocalDateTime(completedOn));
+        results.setExecutionDuration(duration);
+        results.setFiredRuleCount((int) executionResults.getValue("firedActivations"));
+        results.setFacts(facts);
 
-        return executionInfo;
+        return results;
     }
     
     public void dispose() throws Exception {
@@ -131,21 +127,4 @@ public class RuleEngineAdaptor {
         logger.info("Cleaning up rule session pool...");
         this.kieSessionsPool.shutdown();
     }
-
-    private ExecutionDuration calculateExecutionDuration(LocalDateTime begin, LocalDateTime end) {
-
-        ExecutionDuration ed = new ExecutionDuration();
-        ed.setDays(ChronoUnit.DAYS.between(begin, end));
-        ed.setHours(ChronoUnit.HOURS.between(begin, end));
-        ed.setMinutes(ChronoUnit.MINUTES.between(begin, end));
-        ed.setSeconds(ChronoUnit.SECONDS.between(begin, end));
-        ed.setMilliseconds(ChronoUnit.MILLIS.between(begin, end));
-        return ed;
-   }
-
-   private String formatLocalDateTime(LocalDateTime ldt) {
-
-       DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_TIME_FORMAT);
-       return ldt.format(formatter);
-   }
 }

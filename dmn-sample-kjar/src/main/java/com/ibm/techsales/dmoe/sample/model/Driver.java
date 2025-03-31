@@ -4,8 +4,8 @@ public class Driver {
 
     private String name;   
     private int age;
-    private String state;
     private String city;
+    private String state;
     private int points;
 
     public Driver() {
@@ -37,20 +37,20 @@ public class Driver {
         this.age = age;
     }
 
-    public String getState() {
-        return this.state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
-    }
-
     public String getCity() {
         return this.city;
     }
 
     public void setCity(String city) {
         this.city = city;
+    }
+
+    public String getState() {
+        return this.state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
     }
 
     public int getPoints() {

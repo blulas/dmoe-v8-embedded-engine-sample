@@ -5,8 +5,8 @@ import org.junit.jupiter.api.Test;
 import com.ibm.techsales.dmoe.sample.model.Applicant;
 import com.ibm.techsales.dmoe.sample.model.LoanApplication;
 
-import com.ibm.techsales.dmoe.engine.api.ExecutionInfo;
 import com.ibm.techsales.dmoe.engine.api.RuleEngineAdaptor;
+import com.ibm.techsales.dmoe.engine.api.RuleResults;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -52,9 +52,9 @@ public class SampleRuleServiceUnitTests {
             // Test the pool
             for (int i=0; i<10; i++) {
 
-                ExecutionInfo executionInfo = ruleEngineAdaptor.execute(facts);
-                logger.info("Rule execution duration: (" + i + ") " + executionInfo);
-                logger.info("Rule execution results:  (" + i + ") " + executionInfo.getFacts());
+                RuleResults results = ruleEngineAdaptor.execute(facts);
+                logger.info("Rule execution duration: (" + i + ") " + results);
+                logger.info("Rule execution results:  (" + i + ") " + results.getFacts());
             }
 
             // Be sure to call dispose, otherwise the engine pooll will not be released and you will get memory leaks    
@@ -89,9 +89,9 @@ public class SampleRuleServiceUnitTests {
             // Test the pool
             for (int i=0; i<10; i++) {
 
-                ExecutionInfo executionInfo = ruleEngineAdaptor.execute(facts);
-                logger.info("Rule execution duration: (" + i + ") " + executionInfo);
-                logger.info("Rule execution results:  (" + i + ") " + executionInfo.getFacts());
+                RuleResults results = ruleEngineAdaptor.execute(facts);
+                logger.info("Rule execution duration: (" + i + ") " + results);
+                logger.info("Rule execution results:  (" + i + ") " + results.getFacts());
             }
 
             // Be sure to call dispose, otherwise the engine pooll will not be released and you will get memory leaks    

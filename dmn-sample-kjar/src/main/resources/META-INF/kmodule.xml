@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<kmodule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.drools.org/xsd/kmodule">
-<!--
+<kmodule xmlns="http://www.drools.org/xsd/kmodule">
     <configuration>
         <property key="org.kie.dmn.runtime.listeners.mylistener" value="com.ibm.techsales.dmoe.engine.listeners.DecisionEngineListener" />
     </configuration>
--->
 </kmodule>
