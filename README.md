@@ -2,7 +2,7 @@
 This purpose of this repository and its supporting repository modules, is to provide a simple proof of concept of various IBM Business Automation Manager Open Editions (BAMOE) components running in an embedded architecture.
 
 This diagram shows the overall architecture of how BAMOE v8 is typically deployed in an embedded mode:
-![BAMOE Architecture (Infrastructure Servicds)](./doc/images/architecture.png)
+![BAMOE Architecture (Infrastructure Services)](./doc/images/architecture.png)
 
 This proof of concept is based on a multi-module GIT repository, which you must clone to your local machine using standard GIT commands:
 
@@ -19,4 +19,10 @@ The following instructions are helpful in setting up your local environment in o
 - **Maven Command Line Interface** (https://maven.apache.org/install.html), used for builds and deployments of BAMOE libraries, plus you are free to install any Maven related extensions or simply use command line tools.
 - **VS Code IDE** (https://code.visualstudio.com/download), and install the following extensions from the VS Code Marketplace:
 `BAMOE Developer Tools`, this is the set of editors for DMN, BPMN, and PMML that developers use to create their visual models in the IDE Drools (by Jim Moody), this is a third-party editor which does simple syntax highlighting of the Drools Rule Language (DRL) files.
+
+
+> **_NOTE:_**  Since BAMOE v8 is based on an earlier version of the DMN specification, it is important to note that you must install and use the following version of the DMN Extension, as it exists in the VS Code Marketplace....
+
+![BAMOE v8 DMN Editor Extension](./doc/images/bamoe-v8-dmn-extension.png)
+
 
