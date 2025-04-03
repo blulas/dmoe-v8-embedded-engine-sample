@@ -11,7 +11,9 @@
     <!-- Modules -->
     <modules>
         <module>api</module>
-        <module>drl-sample-kjar</module>
-        <module>dmn-sample-kjar</module>
+        <module>fact-model</module>
+        <module>sample-drl-kjar</module>
+        <module>sample-dmn-kjar</module>
+        <module>application</module>
     </modules>
 </project>

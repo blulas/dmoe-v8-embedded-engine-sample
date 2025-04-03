@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	  <modelVersion>4.0.0</modelVersion>
+
+    <!-- POM -->
+    <groupId>com.ibm.techsales.dmoe.v8.samples</groupId>
+    <artifactId>dmoe-v8-embedded-engine-sample-drl-kjar</artifactId>
+    <version>8.0.6</version>
+    <packaging>kjar</packaging>
+
+    <!-- Global Properties -->
+    <properties>
+        <!-- General Properties -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+        <!-- Java Properties -->
+        <java.version>11</java.version>  <!-- JDK 11 is the only supported JDK level for BAMOE v806 and beyond... -->
+
+        <!-- Common Maven Plugins -->
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+        <maven.compiler.parameters>true</maven.compiler.parameters>
+        <maven.compiler.plugin.version>3.14.0</maven.compiler.plugin.version>
+        <maven.resources.plugin.version>3.3.1</maven.resources.plugin.version>
+
+        <!-- Testing Properties -->
+        <skipTests>true</skipTests>
+        <junit.version>5.13.0-M1</junit.version>
+
+        <!-- Logging Properties -->
+        <slf4j.version>2.0.17</slf4j.version>
+        <logback.version>1.5.18</logback.version>
+
+        <!-- BAMOE Properties -->
+        <bamoe.bom.version>8.0.6.redhat-00006</bamoe.bom.version>     <!-- This is the Maven bill-of-materials for BAMOE 8.0.6.  This is the recommended way of bringing in BAMOE Maven dependencies, no version tag needed for dependencies -->
+        <version.org.kie>7.67.2.Final-redhat-00025</version.org.kie>  <!-- This is necessary in order to use the proper Maven build plugin for KJARs, which is why it uses community version labels.  This is only for KJAR builds not for dependencies -->
+
+        <!-- Sharable Fact Model -->
+        <dmoe-embedded-engine-sample-fact-model.groupId>com.ibm.techsales.dmoe.v8.samples</dmoe-embedded-engine-sample-fact-model.groupId>
+        <dmoe-embedded-engine-sample-fact-model.artifactId>dmoe-v8-embedded-engine-sample-fact-model</dmoe-embedded-engine-sample-fact-model.artifactId>
+        <dmoe-embedded-engine-sample-fact-model.version>8.0.6</dmoe-embedded-engine-sample-fact-model.version>
+    </properties>
+
+    <!-- Dependency Management -->
+    <dependencyManagement>
+        <dependencies>
+            <!-- BAMOE Libraries -->
+            <dependency>
+                <groupId>com.redhat.ba</groupId>
+                <artifactId>ba-platform-bom</artifactId>
+                <version>${bamoe.bom.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <!-- BAMOE Dependencies -->
+        <dependency>
+            <groupId>org.kie</groupId>
+            <artifactId>kie-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.kie</groupId>
+            <artifactId>kie-ci</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.drools</groupId>
+            <artifactId>drools-engine</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.drools</groupId>
+            <artifactId>drools-model-compiler</artifactId>
+        </dependency>
+
+        <!-- Testing -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Logging -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>${logback.version}</version>
+        </dependency>
+
+        <!-- Shared Libraries -->
+        <dependency>
+            <groupId>${dmoe-embedded-engine-sample-fact-model.groupId}</groupId>
+            <artifactId>${dmoe-embedded-engine-sample-fact-model.artifactId}</artifactId>
+            <version>${dmoe-embedded-engine-sample-fact-model.version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+  	    <defaultGoal>install</defaultGoal>
+        <plugins>
+            <plugin>
+                <groupId>org.kie</groupId>
+                <artifactId>kie-maven-plugin</artifactId>
+                <version>${version.org.kie}</version>
+                <extensions>true</extensions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven.compiler.plugin.version}</version>
+                <configuration>
+                  <source>${java.version}</source>
+                  <target>${java.version}</target>
+                </configuration>
+			      </plugin>
+
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>${maven.resources.plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>default-testResources</id>
+                        <phase>test-compile</phase>
+                        <goals>
+                            <goal>testResources</goal>
+                        </goals>
+                        <configuration>
+                          <resources>
+                            <resource>
+                              <directory>src/test/resources</directory>
+                              <excludes>
+                                <exclude>**/*.*.scesim</exclude>
+                              </excludes>
+                            </resource>
+                          </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+		</plugins>
+    </build>
+</project>
