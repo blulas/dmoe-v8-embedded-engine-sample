@@ -7,8 +7,8 @@ This diagram shows the overall architecture of how BAMOE v8 is typically deploye
 This proof of concept is based on a multi-module GIT repository, which you must clone to your local machine using standard GIT commands:
 
 - [**Maven Setup**](./maven/README.md) - This module contains describes how to setup your local Maven for use with DMOE v8.
-- [**DRL Sample KJAR**](./drl-sample-kjar/README.md) - This module contains sample rules, written in Drools Rule Language (DRL), and packaged as a version 8 KJAR.
-- [**DMN Sample KJAR**](./dmn-sample-kjar/README.md) - This module contains sample rules, written in Decision Modeling Notation (DMN), and packaged as a version 8 KJAR.
+- [**DRL Sample KJAR**](./sample-drl-kjar/README.md) - This module contains sample rules, written in Drools Rule Language (DRL), and packaged as a version 8 KJAR.
+- [**DMN Sample KJAR**](./sample-dmn-kjar/README.md) - This module contains sample rules, written in Decision Modeling Notation (DMN), and packaged as a version 8 KJAR.
 - [**API**](./api/README.md) - This module contains the Java API for invoking a KJAR using the Java embedded engine API's.
 
 ## Requirements for Local Machine Setup
