@@ -4,12 +4,15 @@ This purpose of this repository and its supporting repository modules, is to pro
 This diagram shows the overall architecture of how BAMOE v8 is typically deployed in an embedded mode:
 ![BAMOE Architecture (Infrastructure Services)](./doc/images/architecture.png)
 
+As you can see from the diagram, rules are authored by the developer or business user using various types of tools, depending upon their role within the organization.  Developers may choose to use the VS Code IDE while other users may use either Excel or possibly the legacy tool known as Business Central _(removed from BAMOE v9 in favor of Canvas)_.  Rule projects are `Maven` projects stored in a `GIT repository`.  From there, your `CI/CD pipeline` can perform standard actions, such as `cloning` your repos, performing a `Maven build` to produce the KJAR.  Your pipeline can also perform `Maven test in order to run unit tests from the pipeline.  Finally, your KJAR is ready to be embedded in your custom application and executed using the Java Engine API, by sending requests to the custom application's external API _(or whatever architecture your custom embedded application is based on)_.
+
 This proof of concept is based on a multi-module GIT repository, which you must clone to your local machine using standard GIT commands:
 
 - [**Maven Setup**](./maven/README.md) - This module contains describes how to setup your local Maven for use with DMOE v8.
 - [**DRL Sample KJAR**](./sample-drl-kjar/README.md) - This module contains sample rules, written in Drools Rule Language (DRL), and packaged as a version 8 KJAR.
 - [**DMN Sample KJAR**](./sample-dmn-kjar/README.md) - This module contains sample rules, written in Decision Modeling Notation (DMN), and packaged as a version 8 KJAR.
-- [**API**](./api/README.md) - This module contains the Java API for invoking a KJAR using the Java embedded engine API's.
+- [**API**](./api/README.md) - This module contains the Java API for invoking a KJAR using the Java embedded engine API's.  Support for both DRL based rules as well as DMN based decision models is provided.
+- [**Application**](./application/README.md) - This module contains a custom Java application, that uses JUnit tests to invoke the embedded engine API and execute rules.
 
 ## Requirements for Local Machine Setup
 The following instructions are helpful in setting up your local environment in order to do BAMOE development.  All functions of BAMOE are available from the developer workstation, including web-based tools and consoles. The following diagram shows the overall architecture:
