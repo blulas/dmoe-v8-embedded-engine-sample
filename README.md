@@ -1,7 +1,6 @@
 # IBM Business Automation Manager Open Editions - Decision Manager Open Edition v8 - Embedded Engine Sample
-This purpose of this repository and its supporting repository modules, is to provide a simple proof of concept of various IBM Business Automation Manager Open Editions (BAMOE) components running in an embedded architecture.
+This purpose of this repository and its supporting repository modules, is to provide a simple proof of concept of various IBM Business Automation Manager Open Editions (BAMOE) components running in an embedded architecture.  The following diagram shows the overall architecture of how BAMOE v8 is typically deployed in an embedded mode:
 
-This diagram shows the overall architecture of how BAMOE v8 is typically deployed in an embedded mode:
 ![BAMOE Architecture (Infrastructure Services)](./doc/images/architecture.png)
 
 As you can see from the diagram, rules are authored by the developer or business user using various types of tools, depending upon their role within the organization.  Developers may choose to use the VS Code IDE while other users may use either Excel or possibly the legacy tool known as Business Central _(removed from BAMOE v9 in favor of Canvas)_.  Rule projects are `Maven` projects stored in a `GIT repository`.  From there, your `CI/CD pipeline` can perform standard actions, such as `cloning` your repos, performing a `Maven build` to produce the KJAR.  Your pipeline can also perform `Maven test in order to run unit tests from the pipeline.  Finally, your KJAR is ready to be embedded in your custom application and executed using the Java Engine API, by sending requests to the custom application's external API _(or whatever architecture your custom embedded application is based on)_.
